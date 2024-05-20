@@ -1,44 +1,39 @@
-import Point from "./Point";
+import Math3D, { ETransform } from "../Math3D";
 import Edge from "./Edge";
+import Point from "./Point";
 import Polygon from "./Polygon";
-import { ETramsform } from "../Math3D";
 
-export type TAnimation={
-    method:ETransform;
-    value:number;
-    center:Point;
+export type TAnimation = {
+    method: ETransform; 
+    value: number; 
+    center: Point;
 }
 
 class Surface {
-    points:Point[];
-    edges:Edge[];
-    polygons:Polygon[];
-    /////
-    center:Point;
-    /////
-    animations:TAnimation[];
-
+    points: Point[];
+    edges: Edge[];
+    polygons: Polygon[];
+    center: Point
+    animations: TAnimation[];
 
     constructor(points = [], edges = [], polygons = [], center = new Point) {
         this.points = points;
         this.edges = edges;
         this.polygons = polygons;
         this.center = center;
-        this.animation = [];
+        this.animations = [];
     }
 
-    dropAnimation() {
-        this.animation = [];
+    dropAnimation(): void {
+        this.animations = [];
     }
 
-    addAnimation(method:ETramsform, value:number, center?:Point):void {
-        ///
-        TAnimation.push({ method, value, center: center || this.center });
-        ///
+    addAnimation(method: ETransform, value: number, center: Point): void {
+        this.animations.push({ method, value, center: center || this.center });
     }
 
-    doAnimation(math3D) {
-        this.animation.forEach(anim => {
+    doAnimation(math3D: Math3D): void {
+        this.animations.forEach(anim => {
             const T1 = math3D.move(-anim.center.x, -anim.center.y, -anim.center.z);
             const T2 = math3D[anim.method](anim.value);
             const T3 = math3D.move(anim.center.x, anim.center.y, anim.center.z);
@@ -47,8 +42,6 @@ class Surface {
             math3D.transform(matrix, this.center);
         })
     }
-
-    setAnimation(method:ETransform,value)
 }
 
 export default Surface;

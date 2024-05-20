@@ -1,5 +1,8 @@
+import AnyType from "./AnyType";
+
 class Matrix {
-    constructor (values = [[]]) {
+    values:AnyType[][];
+    constructor (values:AnyType[][]=[]) {
         this.values = [];
         values.forEach((arr, i) => {
             this.values[i] = [];
@@ -13,7 +16,7 @@ class Matrix {
     7, 8, 9 
     */
    
-    toString() {
+    toString():string {
         return this.values.map(arr => arr.map(el => el.toString()).join(', ')
         ).join('\n');
     }

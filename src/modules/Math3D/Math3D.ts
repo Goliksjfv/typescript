@@ -1,50 +1,49 @@
-import { Matrix } from "../Calculator/types";
 import { TWIN3D } from "../Graph/Graph";
+import Point from "./entites/Point";
+import Polygon, { EDistance } from "./entites/Polygon";
+import Surface from "./entites/Surface";
 
-type TMath3D={
-    WIN:TWIN3D;
+type TMath3D = {
+    WIN: TWIN3D;
 }
 
-type TMatrix=number[][];
-type TVector=number[][];
-type TShadow={
-    isShadow:boolean;
-    dark?:number;
+type TMatrix = number[][];
+type TVector = number[];
+type TShadow = {
+    isShadow: boolean;
+    dark?: number;
 }
 
-export enum ETramsform{
-    zoom='zoom',
-    move='move',
-    rotateOx='rotateOx',
-    rotateOy='rotateOy',
-    rotateOz='rotateOz',
+export enum ETransform {
+    zoom = 'zoom',
+    move = 'move',
+    rotateOx = 'rotateOx',
+    rotateOy = 'rotateOy',
+    rotateOz = 'rotateOz',
 }
+
 class Math3D {
-    [ETramsform.zoom](delta:number):TMatrix{
+    WIN: TWIN3D;
 
-    }
-
-    Math3D.calcDistance(surface,WIN.CAMERA,EDistance.distance);
-
-    constructor({ WIN }) {
+    constructor({ WIN }: TMath3D) {
         this.WIN = WIN;
     }
 
-    xs(point) {
+    xs(point: Point): number {
         const zs = this.WIN.CENTER.z;
         const z0 = this.WIN.CAMERA.z;
         const x0 = this.WIN.CAMERA.x;
         return (point.x - x0) / (point.z - z0) * (zs - z0) + x0;
     }
 
-    ys(point) {
+    ys(point: Point): number {
         const zs = this.WIN.CENTER.z;
         const z0 = this.WIN.CAMERA.z;
         const y0 = this.WIN.CAMERA.y;
         return (point.y - y0) / (point.z - z0) * (zs - z0) + y0;
     }
 
-    transform(matrix, point) {
+    transform(matrix: TMatrix, point: Point): void {
         const { x, y, z } = point;
         const result = this.multPoint(matrix, [x, y, z, 1]);
         point.x = result[0];
@@ -52,7 +51,7 @@ class Math3D {
         point.z = result[2];
     }
 
-    multMatrix(T1, T2) {
+    multMatrix(T1: TMatrix, T2: TMatrix): TMatrix {
         const result = [
             [0, 0, 0, 0],
             [0, 0, 0, 0],
@@ -71,7 +70,7 @@ class Math3D {
         return result;
     };
 
-    multPoint(T, m) {
+    multPoint(T: TMatrix, m: TVector): TVector {
         const a = [0, 0, 0, 0];
         for (let i = 0; i < 4; i++) {
             let b = 0;
@@ -83,7 +82,7 @@ class Math3D {
         return a;
     }
 
-    getTransform(...args) {
+    getTransform(...args: TMatrix[]): TMatrix {
         return args.reduce(
             (S, t) => this.multMatrix(S, t),
             [
@@ -95,7 +94,7 @@ class Math3D {
         );
     }
 
-    zoom(delta) {
+    [ETransform.zoom](delta: number): TMatrix {
         return [
             [delta, 0, 0, 0],
             [0, delta, 0, 0],
@@ -104,7 +103,7 @@ class Math3D {
         ];
     }
 
-    move(dx = 0, dy = 0, dz = 0) {
+    [ETransform.move](dx = 0, dy = 0, dz = 0): TMatrix {
         return [
             [1, 0, 0, 0],
             [0, 1, 0, 0],
@@ -113,7 +112,7 @@ class Math3D {
         ];
     }
 
-    rotateOx(alpha) {
+    [ETransform.rotateOx](alpha: number): TMatrix {
         return [
             [1, 0, 0, 0],
             [0, Math.cos(alpha), Math.sin(alpha), 0],
@@ -122,7 +121,7 @@ class Math3D {
         ];
     }
 
-    rotateOy(alpha) {
+    [ETransform.rotateOy](alpha: number): TMatrix {
         return [
             [Math.cos(alpha), 0, - Math.sin(alpha), 0],
             [0, 1, 0, 0],
@@ -131,7 +130,7 @@ class Math3D {
         ];
     }
 
-    rotateOz(alpha) {
+    [ETransform.rotateOz](alpha: number): TMatrix {
         return [
             [Math.cos(alpha), Math.sin(alpha), 0, 0],
             [- Math.sin(alpha), Math.cos(alpha), 0, 0],
@@ -140,7 +139,7 @@ class Math3D {
         ];
     }
 
-    calcDistance(surface, endPoint, name) {
+    calcDistance(surface: Surface, endPoint: Point, name: EDistance): void {
         surface.polygons.forEach(polygon => {
             let x = 0, y = 0, z = 0;
             polygon.points.forEach(index => {
@@ -156,11 +155,11 @@ class Math3D {
         });
     }
 
-    sortByArtistAlgorithm(polygons) {
+    sortByArtistAlgorithm(polygons: Polygon[]): void {
         polygons.sort((a, b) => (a.distance < b.distance) ? 1 : -1);
     }
 
-    calcIllumination(distance, lumen) {
+    calcIllumination(distance: number, lumen: number): number {
         const illum = distance ? lumen / distance ** 2 : 1;
         return illum > 1 ? 1 : illum;
     }

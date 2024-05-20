@@ -5,8 +5,10 @@ import {
     VectorCalculator,
     MatrixCalculator
 } from "./calculators";
+import ICalculator from "./calculators/ICalculator";
+import AnyType from "./types/AnyType";
 
-class Calculator {
+class Calculator implements ICalculator<AnyType>{
 
     getValue(str) {
         if (str.includes('\n')) { return this.getMatrix(str) };
@@ -15,7 +17,7 @@ class Calculator {
         return str - 0;
     }
 
-    getMatrix(str) {
+    getMatrix(str:string):Matrix {
         if (str instanceof Array) return new Matrix(str);
         if (str && typeof str === 'string') {
             const arr = str.replace(' ', '').split('\n');
@@ -30,7 +32,7 @@ class Calculator {
         return null;
     }
 
-    getVector(str) {
+    getVector(str:string):Vector {
         if (str instanceof Array) return new Vector(str);
         if (str && typeof str === 'string') {
             const arr = str.replace(' ', '').replace('(', '').replace(')', '').split(';').map(el => this.getValue(el));
@@ -39,7 +41,7 @@ class Calculator {
         return null;
     }
 
-    getComplex(str) {
+    getComplex(str:string):Complex {
         if (typeof str === 'number') return new Complex(str);
         if (str && typeof str === 'string') {
             const arrStr = str.split('i*');
@@ -63,11 +65,22 @@ class Calculator {
         return null;
     }
 
-    complex(re, im) { return new Complex(re, im); }
-    vector(values) { return new Vector(values); }
-    matrix(values) { return new Matrix(values); }
+    complex(re?:number, im?:number):Complex { return new Complex(re, im); }
+    vector(values?:AnyType[]):Vector { return new Vector(values); }
+    matrix(values?:AnyType[][]):Matrix { return new Matrix(values); }
 
-    get(elem) {
+    export enum EOperand{
+        add='add',
+        sub='sub',
+        mult='mult',
+        div='div',
+        prod='prod',
+        pow='pow',
+        one='one',
+        zero='zero'
+    } 
+
+    get(elem?:AnyType):ICalculator<AnyType> {
         if (elem instanceof Matrix) {
             return new MatrixCalculator(this.get(elem.values[0][0]));
         }
@@ -80,37 +93,37 @@ class Calculator {
         return new RealCalculator();
     }
 
-    add(a, b) {
+    [EOperand.add](a:AnyType, b:AnyType):AnyType {
         return this.get(a).add(a, b);
     }
 
-    sub(a, b) {
+    [EOperand.sub](a:AnyType, b:AnyType):AnyType{
         return this.get(a).sub(a, b);
     }
 
-    mult(a, b) {
+    [EOperand.mult](a:AnyType, b:AnyType):AnyType {
         return this.get(a).mult(a, b);
     }
 
-    div(a, b) {
+    [EOperand.div](a:AnyType, b:AnyType):AnyType {
         return this.get(a).div(a, b);
     }
 
-    pow(a, n) {
+    [EOperand.pow](a:AnyType, n:AnyType):AnyType|null {
         if (typeof n === 'number') {
             return this.get(a).pow(a, n);
         }
         return null;
     }
 
-    prod(a, p) {
+    [EOperand.prod](a:AnyType, p:AnyType):AnyType|null{
         if (typeof p === 'number') {
             return this.get(a).prod(a, p);
         }
         return null;
     }
 
-    one(type, elem) {
+    [EOperand.one](type:AnyType, elem:AnyType):AnyType{
         type = type ? type : elem ? elem.constructor.name : null;
         switch (type) {
             case 'Complex': return this.get(this.complex()).one();
@@ -120,7 +133,7 @@ class Calculator {
         }
     }
 
-    zero(type, elem) {
+    [EOperand.zero](type:AnyType, elem:AnyType):AnyType {
         type = type ? type : elem ? elem.constructor.name : null;
         switch (type) {
             case 'Complex': return this.get(this.complex()).zero();

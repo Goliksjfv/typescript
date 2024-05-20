@@ -8,8 +8,8 @@ export type TWIN2D = {
 }
 
 export type TWIN3D = TWIN2D & {
-    CAMERA: Point;
     CENTER: Point;
+    CAMERA: Point;
 }
 
 export type TWIN = TWIN2D | TWIN3D;
@@ -113,7 +113,7 @@ class Graph {
         }
     };
 
-    polygon(points: Omit<Point, 'z'>[], color = '#ff0000'): void {
+    polygon(points: Omit<Point, 'z'>[], color = 'purple'): void {
         this.context.beginPath();
         this.context.fillStyle = color;
         this.context.moveTo(this.xs(points[0].x), this.ys(points[0].y));

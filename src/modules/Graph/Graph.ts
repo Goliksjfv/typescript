@@ -74,7 +74,7 @@ class Graph {
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    line(x1: number, y1: number, x2: number, y2: number, color = '#b55a5d', width = 2): void {
+    line(x1: number, y1: number, x2: number, y2: number, color = '#123456', width = 2): void {
         this.context.beginPath();
         this.context.strokeStyle = color;
         this.context.lineWidth = width;
@@ -84,7 +84,7 @@ class Graph {
         this.context.closePath();
     }
 
-    point(x: number, y: number, color = '#b55a5d', size = 2): void {
+    point(x: number, y: number, color = '#123456', size = 2): void {
         this.context.beginPath();
         this.context.strokeStyle = color;
         this.context.arc(this.xs(x), this.ys(y), size, 0, this.PI2);

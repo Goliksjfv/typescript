@@ -29,17 +29,17 @@ class Cube extends Surface {
             new Edge(3, 7),
         ], [
             //зад
-            new Polygon([0, 1, 2, 3]),
+            new Polygon([0, 1, 2, 3],'#123456'),
             //перед
-            new Polygon([4, 5, 6, 7], '#800080'),
+            new Polygon([4, 5, 6, 7], '#123456'),
             //справа
-            new Polygon([0, 1, 5, 4], '#000000'),
+            new Polygon([0, 1, 5, 4], '#123456'),
             //верх
-            new Polygon([0, 4, 7, 3], '#FFFF00'),
+            new Polygon([0, 4, 7, 3], '#123456'),
             //слева
-            new Polygon([2, 6, 7, 3], '#008000'),
+            new Polygon([2, 6, 7, 3], '#123456'),
             //низ
-            new Polygon([5, 1, 2, 6], '#0000FF'),
+            new Polygon([5, 1, 2, 6], '#123456'),
         ]);
     }
 }

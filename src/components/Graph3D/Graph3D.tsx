@@ -1,10 +1,22 @@
 import { useEffect } from "react";
 import useGraph, { TWIN3D, Graph } from '../../modules/Graph';
 import Math3D, {
-    Point, Light, Polygon, EDistance, Sphera, Cube
+    Point, Light, Polygon, EDistance, Sphera, Cube,
 } from "../../modules/Math3D";
 import Surface from "../../modules/Math3D/entites/Surface";
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
+import Pyramid from "../../modules/Math3D/surfaces/pyramid";
+import Torus from "../../modules/Math3D/surfaces/torus";
+import hyperbolicParaboloid from "../../modules/Math3D/surfaces/hyperbolicParaboloid";
+import kleinBottle from "../../modules/Math3D/surfaces/KleinBottle";
+import Cone from "../../modules/Math3D/surfaces/cone";
+import Ellipsoid from "../../modules/Math3D/surfaces/ellipsoid";
+import HyperbolicCylinder from "../../modules/Math3D/surfaces/hyperbolicCylinder";
+import parabolicCylinder from "../../modules/Math3D/surfaces/parabolicCylinder";
+import EllipticalCylinder from "../../modules/Math3D/surfaces/ellipticalCylinder";
+import singleStripHyperboloid from "../../modules/Math3D/surfaces/singleStripHyperboloid";
+import doubleStripHyperboloid from "../../modules/Math3D/surfaces/doubleStripHyperboloid";
+import EllipticalParaboloid from "../../modules/Math3D/surfaces/ellipticalParaboloid";
 
 export enum ECustom {
     showPoints = 'showPoints',
@@ -144,6 +156,18 @@ const Graph3D = () => {
         switch (event.target.value) {
             case 'Sphera': scene = [new Sphera()]; break;
             case 'Cube': scene = [new Cube()]; break;
+            case 'pyramid':scene = [new Pyramid()]; break;
+            case 'torus':scene=[new Torus()]; break;
+            case 'hyperbolicParaboloid':scene=[new hyperbolicParaboloid()];break;
+            case 'KleinBottle':scene=[new kleinBottle()];break;
+            case 'cone':scene=[new Cone];break;
+            case 'ellipsoid':scene=[new Ellipsoid];break;
+            case 'hyperbolicCylinder':scene=[new HyperbolicCylinder];break;
+            case 'parabolicCylinder':scene=[new parabolicCylinder];break;
+            case 'ellipticalCylinder':scene=[new EllipticalCylinder];break;
+            case 'singleStripHyperboloid':scene=[new singleStripHyperboloid];break;
+            case 'doubleStripHyperboloid':scene=[new doubleStripHyperboloid];break;
+            case 'ellipticalParaboloid':scene=[new EllipticalParaboloid];break;
         }
     }
 

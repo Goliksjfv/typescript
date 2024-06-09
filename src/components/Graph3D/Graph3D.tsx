@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useGraph, { TWIN3D, Graph } from '../../modules/Graph';
 import Math3D, {
     Point, Light, Polygon, EDistance, Sphera, Cube,
@@ -23,6 +23,10 @@ export enum ECustom {
     showEdges = 'showEdges',
     showPolygons = 'showPolygons',
     animationOn = 'animationOn',
+}
+
+export enum changeColor {
+
 }
 
 const Graph3D = () => {
@@ -89,12 +93,19 @@ const Graph3D = () => {
             )
         );
     }
+    const pointsRef = useRef<any>(null);
+    const edgesRef = useRef<any>(null);
+    const polygonsRef = useRef<any>(null);
+    
 
-    function renderScene(FPS: number): void {
+    function renderScene(FPS?: number): void {
         if (!graph) {
             return;
         }
         graph.clear();
+        const colorOfPoints = pointsRef.current.value;
+        const colorOfEdges = edgesRef.current.value;
+        const colorOfPolygons = polygonsRef.current.value;
         if (custom.showPolygons) {
             const polygons: Polygon[] = [];
             scene.forEach((surface, index) => {
@@ -102,6 +113,7 @@ const Graph3D = () => {
                 math3D.calcDistance(surface, LIGHT, EDistance.lumen);
                 surface.polygons.forEach(polygon => {
                     polygon.index = index;
+                    polygon.color=polygon.hexToRgb(colorOfPolygons);
                     polygons.push(polygon);
                 });
             });
@@ -128,7 +140,7 @@ const Graph3D = () => {
                     graph && graph.point(
                         math3D.xs(point),
                         math3D.ys(point),
-                        '#000000'
+                        colorOfPoints
                     );
                 })
             );
@@ -142,7 +154,7 @@ const Graph3D = () => {
                     graph && graph.line(
                         math3D.xs(point1), math3D.ys(point1),
                         math3D.xs(point2), math3D.ys(point2),
-                        '#800080');
+                        colorOfEdges || '#800080');
                 })
             );
         }
@@ -156,18 +168,18 @@ const Graph3D = () => {
         switch (event.target.value) {
             case 'Sphera': scene = [new Sphera()]; break;
             case 'Cube': scene = [new Cube()]; break;
-            case 'pyramid':scene = [new Pyramid()]; break;
-            case 'torus':scene=[new Torus()]; break;
-            case 'hyperbolicParaboloid':scene=[new hyperbolicParaboloid()];break;
-            case 'KleinBottle':scene=[new kleinBottle()];break;
-            case 'cone':scene=[new Cone];break;
-            case 'ellipsoid':scene=[new Ellipsoid];break;
-            case 'hyperbolicCylinder':scene=[new HyperbolicCylinder];break;
-            case 'parabolicCylinder':scene=[new parabolicCylinder];break;
-            case 'ellipticalCylinder':scene=[new EllipticalCylinder];break;
-            case 'singleStripHyperboloid':scene=[new singleStripHyperboloid];break;
-            case 'doubleStripHyperboloid':scene=[new doubleStripHyperboloid];break;
-            case 'ellipticalParaboloid':scene=[new EllipticalParaboloid];break;
+            case 'pyramid': scene = [new Pyramid()]; break;
+            case 'torus': scene = [new Torus()]; break;
+            case 'hyperbolicParaboloid': scene = [new hyperbolicParaboloid()]; break;
+            case 'KleinBottle': scene = [new kleinBottle()]; break;
+            case 'cone': scene = [new Cone]; break;
+            case 'ellipsoid': scene = [new Ellipsoid]; break;
+            case 'hyperbolicCylinder': scene = [new HyperbolicCylinder]; break;
+            case 'parabolicCylinder': scene = [new parabolicCylinder]; break;
+            case 'ellipticalCylinder': scene = [new EllipticalCylinder]; break;
+            case 'singleStripHyperboloid': scene = [new singleStripHyperboloid]; break;
+            case 'doubleStripHyperboloid': scene = [new doubleStripHyperboloid]; break;
+            case 'ellipticalParaboloid': scene = [new EllipticalParaboloid]; break;
         }
     }
 
@@ -199,7 +211,6 @@ const Graph3D = () => {
     });
 
     return (<div className="beautyDiv">
-        <button id="move">move</button>
         <canvas id='graph3DCanvas' />
         <div className="checkbox">
             <Checkbox3D
@@ -208,28 +219,21 @@ const Graph3D = () => {
                 custom={ECustom.showPoints}
                 customValue={custom[ECustom.showPoints]}
                 changeValue={changeValue}
-            />
+            /><input type="color" ref={pointsRef} defaultValue="#ff0000"/><br></br>
             <Checkbox3D
                 text="рёбра"
                 id="edges"
                 custom={ECustom.showEdges}
                 customValue={custom[ECustom.showEdges]}
                 changeValue={changeValue}
-            />
+            /><input type="color" ref={edgesRef} defaultValue="#00EEFF"/><br></br>
             <Checkbox3D
                 text="полигоны"
                 id="polygons"
                 custom={ECustom.showPolygons}
                 customValue={custom[ECustom.showPolygons]}
                 changeValue={changeValue}
-            />
-            <Checkbox3D
-                text="анимация"
-                id="animation"
-                custom={ECustom.animationOn}
-                customValue={custom[ECustom.animationOn]}
-                changeValue={changeValue}
-            />
+            /><input type="color" ref={polygonsRef} defaultValue="#356520"/><br></br>
         </div>
         <div>
             <select onChange={changeScene} className="selectFigures">

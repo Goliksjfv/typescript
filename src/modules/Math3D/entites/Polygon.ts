@@ -20,7 +20,7 @@ class Polygon {
     index = 0;
     R = 0;
 
-    constructor(points: number[] = [], color = '#dc143c') {
+    constructor(points: number[] = [], color = '#123456') {
         this.points = points;
         this.color = this.hexToRgb(color);
     }

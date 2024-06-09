@@ -57,7 +57,7 @@ class Sphera extends Surface {
                         i + 1 + count,
                         i + count,
                     ],
-                    color
+                    //color
                 ));
             }
         }

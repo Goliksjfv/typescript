@@ -26,7 +26,7 @@ const Header: React.FC<THeader> = (props: THeader) => {
                 style={buttonStyle}
                 onClick={() => setPageName(EPAGES.CALC)}
             >
-                Бульбулятор
+                Калькулятор
             </button>
         </div>
     );

@@ -251,7 +251,7 @@ const Graph3D = () => {
                     <option value="Sphera">сфера</option>
                     <option value="Cube">кубик</option>
                     <option value="pyramid">пирамидка</option>
-                    <option value="torus">Бог грома</option>
+                    <option value="torus">Бублик</option>
                     <option value="KleinBottle">бутылка Клейна</option>
                     <option value="cone">конус</option>
                     <option value="ellipsoid">эллипсоид</option>

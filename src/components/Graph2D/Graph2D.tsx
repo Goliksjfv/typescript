@@ -189,7 +189,14 @@ const Graph2D: React.FC = () => {
         }
     });
 
-    return (<div className="beautyDiv">
+    return (<div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        backgroundImage:
+            "linear-gradient(to right, #427ceb, #1dad6f)",
+    }} className="beautyDiv">
         <div>
             <canvas id='canvas' width='300' height='300' />
         </div>

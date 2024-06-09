@@ -17,6 +17,7 @@ import EllipticalCylinder from "../../modules/Math3D/surfaces/ellipticalCylinder
 import singleStripHyperboloid from "../../modules/Math3D/surfaces/singleStripHyperboloid";
 import doubleStripHyperboloid from "../../modules/Math3D/surfaces/doubleStripHyperboloid";
 import EllipticalParaboloid from "../../modules/Math3D/surfaces/ellipticalParaboloid";
+import '../../Style.css';
 
 export enum ECustom {
     showPoints = 'showPoints',
@@ -210,10 +211,17 @@ const Graph3D = () => {
         }
     });
 
-    return (<div className="beautyDiv">
+    return (<div  style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        backgroundImage:
+            "linear-gradient(to right, #427ceb, #1dad6f)",
+    }} className="beautyDiv">
         <canvas id='graph3DCanvas' />
         <div className="checkbox">
-            <Checkbox3D
+            <Checkbox3D 
                 text="точки"
                 id="points"
                 custom={ECustom.showPoints}

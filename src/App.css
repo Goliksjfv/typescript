@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.beautyDiv{
+  padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

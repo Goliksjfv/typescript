@@ -56,17 +56,17 @@ class Graph {
     }
 
     xs(x: number): number {
-        return this.canvas.height * (x - this.WIN.LEFT) / this.WIN.WIDTH;
+        return this.canvas.width * (x - this.WIN.LEFT) / this.WIN.WIDTH;
     }
     ys(y: number): number {
-        return this.canvas.width - this.canvas.width * (y - this.WIN.BOTTOM) / this.WIN.HEIGHT;
+        return this.canvas.height - this.canvas.height * (y - this.WIN.BOTTOM) / this.WIN.HEIGHT;
     }
 
     sx(x: number): number {
         return x * this.WIN.WIDTH / this.canvas.width;
     }
     sy(y: number): number {
-        return -y * this.WIN.HEIGHT / this.canvas.height;
+        return y * this.WIN.HEIGHT / this.canvas.height;
     }
 
     clear(): void {
@@ -91,27 +91,27 @@ class Graph {
         this.context.stroke();
         this.context.closePath();
     }
-
+    
     text(
         x: number,
         y: number,
         text: string,
         size = '17px arial',
         color = '#000',
-        isGraphName = true
+        isGraphName = false
     ): void {
         this.context.fillStyle = color;
         this.context.font = size;
         if (isGraphName) {
             this.context.save();
-            this.context.translate(500, 0);
-            this.context.rotate(Math.PI / 2);
-            this.context.fillText(text, this.xs(x), this.ys(y));
+            this.context.translate(this.xs(x), this.ys(y));
+            this.context.rotate(-Math.PI / 2);
+            this.context.fillText(text, 0, 0);
             this.context.restore();
         } else {
             this.context.fillText(text, this.xs(x), this.ys(y));
         }
-    };
+    }
 
     polygon(points: Omit<Point, 'z'>[], color = 'purple'): void {
         this.context.beginPath();

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, CSSProperties } from "react";
 import useGraph, { TWIN3D, Graph } from '../../modules/Graph';
 import Math3D, {
     Point, Light, Polygon, EDistance, Sphera, Cube,
@@ -94,9 +94,9 @@ const Graph3D = () => {
             )
         );
     }
-    const pointsRef = useRef<any>(null);
-    const edgesRef = useRef<any>(null);
-    const polygonsRef = useRef<any>(null);
+    const pointsRef = useRef<HTMLInputElement>(null);
+    const edgesRef = useRef<HTMLInputElement>(null);
+    const polygonsRef = useRef<HTMLInputElement>(null);
     
 
     function renderScene(FPS?: number): void {
@@ -104,9 +104,9 @@ const Graph3D = () => {
             return;
         }
         graph.clear();
-        const colorOfPoints = pointsRef.current.value;
-        const colorOfEdges = edgesRef.current.value;
-        const colorOfPolygons = polygonsRef.current.value;
+        const colorOfPoints = pointsRef.current!.value;
+        const colorOfEdges = edgesRef.current!.value;
+        const colorOfPolygons = polygonsRef.current!.value;
         if (custom.showPolygons) {
             const polygons: Polygon[] = [];
             scene.forEach((surface, index) => {
@@ -181,6 +181,7 @@ const Graph3D = () => {
             case 'singleStripHyperboloid': scene = [new singleStripHyperboloid]; break;
             case 'doubleStripHyperboloid': scene = [new doubleStripHyperboloid]; break;
             case 'ellipticalParaboloid': scene = [new EllipticalParaboloid]; break;
+            case 'hyperbolicParaboloid': scene = [new hyperbolicParaboloid]; break;
         }
     }
 
@@ -209,59 +210,62 @@ const Graph3D = () => {
             clearInterval(interval);
             cancelGraph();
         }
-    });
+    }, []);
 
-    return (<div  style={{
+    const containerStyle: CSSProperties = {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
-        backgroundImage:
-            "linear-gradient(to right, #427ceb, #1dad6f)",
-    }} className="beautyDiv">
-        <canvas id='graph3DCanvas' />
-        <div className="checkbox">
-            <Checkbox3D 
-                text="точки"
-                id="points"
-                custom={ECustom.showPoints}
-                customValue={custom[ECustom.showPoints]}
-                changeValue={changeValue}
-            /><input type="color" ref={pointsRef} defaultValue="#ff0000"/><br></br>
-            <Checkbox3D
-                text="рёбра"
-                id="edges"
-                custom={ECustom.showEdges}
-                customValue={custom[ECustom.showEdges]}
-                changeValue={changeValue}
-            /><input type="color" ref={edgesRef} defaultValue="#00EEFF"/><br></br>
-            <Checkbox3D
-                text="полигоны"
-                id="polygons"
-                custom={ECustom.showPolygons}
-                customValue={custom[ECustom.showPolygons]}
-                changeValue={changeValue}
-            /><input type="color" ref={polygonsRef} defaultValue="#356520"/><br></br>
+        backgroundImage: "linear-gradient(to right, #427ceb, #1dad6f)",
+    };
+
+    return (
+        <div style={containerStyle} className="beautyDiv">
+            <canvas id='graph3DCanvas' />
+            <div className="checkbox">
+                <Checkbox3D
+                    text="точки"
+                    id="points"
+                    custom={ECustom.showPoints}
+                    customValue={custom[ECustom.showPoints]}
+                    changeValue={changeValue}
+                /><input type="color" ref={pointsRef} defaultValue="#ff0000"/><br></br>
+                <Checkbox3D
+                    text="рёбра"
+                    id="edges"
+                    custom={ECustom.showEdges}
+                    customValue={custom[ECustom.showEdges]}
+                    changeValue={changeValue}
+                /><input type="color" ref={edgesRef} defaultValue="#00EEFF"/><br></br>
+                <Checkbox3D
+                    text="полигоны"
+                    id="polygons"
+                    custom={ECustom.showPolygons}
+                    customValue={custom[ECustom.showPolygons]}
+                    changeValue={changeValue}
+                /><input type="color" ref={polygonsRef} defaultValue="#356520"/><br></br>
+            </div>
+            <div>
+                <select onChange={changeScene} className="selectFigures">
+                    <option value="Sphera">сфера</option>
+                    <option value="Cube">кубик</option>
+                    <option value="pyramid">пирамидка</option>
+                    <option value="torus">Бог грома</option>
+                    <option value="KleinBottle">бутылка Клейна</option>
+                    <option value="cone">конус</option>
+                    <option value="ellipsoid">эллипсоид</option>
+                    <option value="hyperbolicCylinder">гиперболический цилиндр</option>
+                    <option value="parabolicCylinder">параболический цилиндр</option>
+                    <option value="ellipticalCylinder">эллиптический цилиндр</option>
+                    <option value="singleStripHyperboloid">однополосной гиперболоид</option>
+                    <option value="doubleStripHyperboloid">двуполосной гиперболоид</option>
+                    <option value="ellipticalParaboloid">эллиптический параболоид</option>
+                    <option value="hyperbolicParaboloid">чипсина</option>
+                </select>
+            </div>
         </div>
-        <div>
-            <select onChange={changeScene} className="selectFigures">
-                <option value="Sphera">сфера</option>
-                <option value="Cube">кубик</option>
-                <option value="pyramid">пирамидка</option>
-                <option value="torus">Бог грома</option>
-                <option value="KleinBottle">бутылка Клейна</option>
-                <option value="cone">конус</option>
-                <option value="ellipsoid">эллипсоид</option>
-                <option value="hyperbolicCylinder">гиперболический цилиндр</option>
-                <option value="parabolicCylinder">параболический цилиндр</option>
-                <option value="ellipticalCylinder">эллиптический цилиндр</option>
-                <option value="singleStripHyperboloid">однополосной гиперболоид</option>
-                <option value="doubleStripHyperboloid">двуполосной гиперболоид</option>
-                <option value="ellipticalParaboloid">эллиптический параболоид</option>
-                <option value="hyperbolicParaboloid">чипсина</option>
-            </select>
-        </div>
-    </div>);
+    );
 }
 
 export default Graph3D;

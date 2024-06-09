@@ -27,24 +27,48 @@ const Func: React.FC<TFunc> = (props: TFunc) => {
         }
     }
 
-    return (<div>
-        <input 
-            onKeyUp={changeFunction} 
-            placeholder="f(x)" 
-            defaultValue={getFunctionBody(func.f)}
-        />
-        <input 
-            onKeyUp={changeColor} 
-            placeholder="color" 
-            defaultValue={func.color}
-        />
-        <input 
-            onKeyUp={changeWidth}
-            placeholder="width" 
-            defaultValue={func.width}
-        />
-        <button onClick={() => delFunction(index)}>-</button>
-    </div>);
+    return (
+        <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <input 
+                onKeyUp={changeFunction} 
+                placeholder="f(x)" 
+                defaultValue={getFunctionBody(func.f)}
+                style={inputStyle}
+            />
+            <input 
+                onKeyUp={changeColor} 
+                placeholder="color" 
+                defaultValue={func.color}
+                style={inputStyle}
+            />
+            <input 
+                onKeyUp={changeWidth}
+                placeholder="width" 
+                defaultValue={func.width.toString()}
+                style={inputStyle}
+            />
+            <button
+                style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundImage: "linear-gradient(to right, #427ceb, #1dad6f)",
+                    padding: "10px",
+                    marginLeft: "10px",
+                }}
+                onClick={() => delFunction(index)}
+            >
+                -
+            </button>
+        </div>
+    );
 }
 
 export default Func;
+
+const inputStyle = {
+    marginRight: "10px",
+    padding: "5px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+};

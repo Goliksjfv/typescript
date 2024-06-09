@@ -50,7 +50,7 @@ const Graph2D: React.FC = () => {
     const mousemove = (event: MouseEvent) => {
         if (canMove && graph) {
             WIN.LEFT -= graph.sx(event.movementX);
-            WIN.BOTTOM -= graph.sy(event.movementY);
+            WIN.BOTTOM += graph.sy(event.movementY); // Изменено на +=
         }
     };
 
@@ -198,7 +198,7 @@ const Graph2D: React.FC = () => {
             "linear-gradient(to right, #427ceb, #1dad6f)",
     }} className="beautyDiv">
         <div>
-            <canvas id='canvas' width='300' height='300' />
+            <canvas id='canvas' width='500' height='500' />
         </div>
         <UI2D funcs={funcs} />
     </div>);

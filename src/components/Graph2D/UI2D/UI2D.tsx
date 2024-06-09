@@ -5,7 +5,6 @@ import Func from "./Func/Func";
 
 type TUI2D = {
     funcs: TFunction[];
-    //funcs: Array<TFunction>;
 }
 
 const UI2D: React.FC<TUI2D> = (props: TUI2D) => {
@@ -27,19 +26,34 @@ const UI2D: React.FC<TUI2D> = (props: TUI2D) => {
         setCount(funcs.length);
     }
 
-    return (<div>
-        <button onClick={addFunction} className="beautyButton">+</button>
-        <div>
-            {funcs.map((func, index) =>
-                <Func 
-                    key={`${index}${Math.random()}`} 
-                    func={func} 
-                    index={index}
-                    delFunction={delFunction}
-                />
-            )}
+    return (
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <button
+                style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundImage: "linear-gradient(to right, #427ceb, #1dad6f)",
+                    padding: "10px",
+                    margin: "5px",
+                }}
+                onClick={addFunction}
+                className="beautyButton"
+            >
+                +
+            </button>
+            <div>
+                {funcs.map((func, index) =>
+                    <Func
+                        key={`${index}${Math.random()}`}
+                        func={func}
+                        index={index}
+                        delFunction={delFunction}
+                    />
+                )}
+            </div>
         </div>
-    </div>);
+    );
 }
 
 export default UI2D;

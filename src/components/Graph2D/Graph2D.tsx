@@ -50,7 +50,8 @@ const Graph2D: React.FC = () => {
     const mousemove = (event: MouseEvent) => {
         if (canMove && graph) {
             WIN.LEFT -= graph.sx(event.movementX);
-            WIN.BOTTOM += graph.sy(event.movementY); // Изменено на +=
+            WIN.BOTTOM += graph.sy(event.movementY);
+            console.log(event.movementX,event.movementY) // Изменено на +=
         }
     };
 

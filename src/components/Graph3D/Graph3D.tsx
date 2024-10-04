@@ -114,7 +114,7 @@ const Graph3D = () => {
                 math3D.calcDistance(surface, LIGHT, EDistance.lumen);
                 surface.polygons.forEach(polygon => {
                     polygon.index = index;
-                    polygon.color=polygon.hexToRgb(colorOfPolygons);
+                    //polygon.color=polygon.hexToRgb(colorOfPolygons);
                     polygons.push(polygon);
                 });
             });

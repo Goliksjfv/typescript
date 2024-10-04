@@ -4,7 +4,7 @@ import Edge from "../entites/Edge";
 import Polygon from "../entites/Polygon";
 
 class Torus extends Surface{
-    constructor(count = 20, R = 20, r = 5, color = '#ffff00'){
+    constructor(count = 100, R = 20, r = 5, color = '#ffff00'){
         super();
         const da = Math.PI * 2 / count;
         const points = [];

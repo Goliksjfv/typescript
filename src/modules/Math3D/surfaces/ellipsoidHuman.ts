@@ -5,7 +5,7 @@ import Surface from "../entites/Surface";
 
 class ellipsoid extends Surface {
     constructor(
-        count:number = 80,
+        count:number = 50,
         rX:number = 20,
         rY:number = 10,
         rZ:number = 6,
@@ -55,26 +55,30 @@ class ellipsoid extends Surface {
 
         let i = 0;
         polygons.forEach((poly) => {
-            /*if (i<count*3+count/2 && i>count*3-8+count/2) {
-                poly.color = { r: 0, g: 0, b: 0 };
-            }*/
-            if (i<count*7 && i>count*7-8) {
-                poly.color = { r: 128, g: 64, b: 48 };
-            }
-            if (i<count*8-1 && i>count*8-7) {
-                poly.color = { r: 128, g: 64, b: 48 };
-            }
-            if (i===count*6-5 || i===count*5-5 || i===count*4-5) {
+            if (i<count) {
                 poly.color = { r: 0, g: 0, b: 0 };
             }
-            if (i===count*5-4 || i===count*4-4 || i===count*5-3 || i===count*4-3 || i===count*5-2 || i===count*4-2) {
-                poly.color = { r: 234, g: 63, b: 37 };
+            if(i%count===0 && i<=count*6){
+                poly.color = { r: 0, g: 0, b: 0 };
             }
-            if (i>count*8-2 && i<count*9) {
-                poly.color = { r: 126, g: 205, b: 250 };
+            if(i%count-2===0 && i<=count*7){
+                poly.color = { r: 0, g: 0, b: 0 };
             }
-
-            
+            if(i%count-1===0 && i<=count*4){
+                poly.color = { r: 0, g: 0, b: 0 };
+            }
+            if(i%count-4===0 && i<=count*4){
+                polygons[i].color = { r: 0, g: 0, b: 0 };
+            }
+            if(i%count-3===0 && i<=count*2){
+                polygons[i].color = { r: 0, g: 0, b: 0 };
+            }
+            if(i%count-count+2===0 && i<=count*4){
+                polygons[i].color = { r: 0, g: 0, b: 0 };
+            }
+            if(i%count-count+1===0 && i<=count*2){
+                polygons[i].color = { r: 0, g: 0, b: 0 };
+            }
         i++;
         })
 
